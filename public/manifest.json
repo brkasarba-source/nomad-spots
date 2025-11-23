@@ -1,0 +1,63 @@
+{
+    "name": "Nomad Spots - Digital Nomad Community",
+    "short_name": "Nomad Spots",
+    "description": "Discover and share the best cafes, coworking spaces, and spots for digital nomads worldwide.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#fafafa",
+    "theme_color": "#ffffff",
+    "orientation": "portrait-primary",
+    "categories": [
+        "travel",
+        "lifestyle",
+        "social"
+    ],
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "narrow"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Add Spot",
+            "short_name": "Add",
+            "description": "Quickly add a new spot",
+            "url": "/add",
+            "icons": [
+                {
+                    "src": "/icon-192x192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Explore",
+            "short_name": "Explore",
+            "description": "Explore cities",
+            "url": "/explore",
+            "icons": [
+                {
+                    "src": "/icon-192x192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ]
+}

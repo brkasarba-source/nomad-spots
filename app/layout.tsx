@@ -1,37 +1,36 @@
+"use client";
+
 import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import BottomNav from "@/components/layout/BottomNav";
 import InstallPrompt from "@/components/InstallPrompt";
 import { ToastProvider } from "@/components/ToastProvider";
+import { usePathname } from "next/navigation";
 
 const outfit = Outfit({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Nomad Spots",
-  description: "Share and discover the best spots for digital nomads.",
-  manifest: "/manifest.json",
-};
-
-export const viewport: Viewport = {
-  themeColor: "#ffffff",
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const hideBottomNav = pathname?.startsWith("/chat");
+
   return (
     <html lang="en">
+      <head>
+        <title>Wander</title>
+        <meta name="description" content="Discover and share the best spots for digital nomads." />
+        <meta name="theme-color" content="#ffffff" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body className={`${outfit.className} bg-gray-50 text-gray-900`}>
         <ToastProvider>
           {children}
-          <BottomNav />
+          {!hideBottomNav && <BottomNav />}
           <InstallPrompt />
         </ToastProvider>
       </body>

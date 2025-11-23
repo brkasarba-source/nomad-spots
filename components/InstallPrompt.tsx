@@ -8,6 +8,10 @@ export default function InstallPrompt() {
     const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
     useEffect(() => {
+        // Check if user dismissed the prompt before
+        const dismissed = localStorage.getItem("installPromptDismissed");
+        if (dismissed) return;
+
         const handler = (e: Event) => {
             e.preventDefault();
             setDeferredPrompt(e);
@@ -35,6 +39,12 @@ export default function InstallPrompt() {
             setDeferredPrompt(null);
         }
 
+        localStorage.setItem("installPromptDismissed", "true");
+        setShowPrompt(false);
+    };
+
+    const handleDismiss = () => {
+        localStorage.setItem("installPromptDismissed", "true");
         setShowPrompt(false);
     };
 
@@ -44,7 +54,7 @@ export default function InstallPrompt() {
         <div className="fixed bottom-24 left-4 right-4 z-50 animate-slideUp">
             <div className="bg-black text-white rounded-3xl p-5 shadow-2xl">
                 <button
-                    onClick={() => setShowPrompt(false)}
+                    onClick={handleDismiss}
                     className="absolute top-3 right-3 p-1 hover:bg-white/10 rounded-full transition-colors"
                 >
                     <X size={18} />
@@ -56,7 +66,7 @@ export default function InstallPrompt() {
                     </div>
 
                     <div className="flex-1">
-                        <h3 className="font-bold text-lg mb-1">Install Nomad Spots</h3>
+                        <h3 className="font-bold text-lg mb-1">Install Wander</h3>
                         <p className="text-sm text-white/80 mb-4">
                             Add to your home screen for quick access and offline use
                         </p>
@@ -69,7 +79,7 @@ export default function InstallPrompt() {
                                 Install
                             </button>
                             <button
-                                onClick={() => setShowPrompt(false)}
+                                onClick={handleDismiss}
                                 className="px-4 py-2.5 text-sm font-semibold hover:bg-white/10 rounded-xl transition-colors"
                             >
                                 Not Now

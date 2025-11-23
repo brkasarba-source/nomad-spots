@@ -67,7 +67,7 @@ export default function ChatDetail() {
             </header>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-5 py-6 space-y-4 pb-28">
+            <div className="flex-1 overflow-y-auto px-5 py-6 space-y-4 pb-32">
                 {chat.messages.map((msg: any) => (
                     <div key={msg.id} className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}>
                         <div className={`max-w-[75%] ${msg.sender === "me" ? "order-2" : "order-1"}`}>

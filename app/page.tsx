@@ -86,7 +86,7 @@ export default function Home() {
           <div className="flex justify-between items-center mb-6">
             <div>
               <p className="text-sm text-gray-500 font-medium mb-1">Good Morning,</p>
-              <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Nomad Spots</h1>
+              <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Wander</h1>
             </div>
             <button className="p-2 rounded-full bg-gray-50 hover:bg-gray-100 transition-colors relative">
               <Bell size={20} className="text-gray-600" />

@@ -11,6 +11,7 @@ export default function Home() {
   const [spots, setSpots] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -18,6 +19,14 @@ export default function Home() {
     if (hour < 18) return "Good Afternoon";
     return "Good Evening";
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     // Simulate API call
@@ -99,29 +108,51 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-50/50 pb-28">
-      {/* Minimal Header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100/50">
+      {/* Dynamic Header */}
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100/50 transition-all">
         <div className="px-5 pt-14 pb-4">
-          {/* Search Bar with Notification */}
-          <div className="flex items-center gap-3">
-            <div className="relative group flex-1">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search className="text-gray-400 group-focus-within:text-black transition-colors" size={20} />
+          {isScrolled ? (
+            /* Compact Header (Scrolled) */
+            <div className="flex items-center justify-between gap-3">
+              <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Wander</h1>
+              <div className="flex items-center gap-2">
+                <button className="p-2 rounded-full bg-gray-50 hover:bg-gray-100 transition-colors">
+                  <Search size={20} className="text-gray-600" />
+                </button>
+                <Link href="/notifications" className="p-2 rounded-full bg-gray-50 hover:bg-gray-100 transition-colors relative">
+                  <Bell size={20} className="text-gray-600" />
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </Link>
               </div>
-              <input
-                type="text"
-                placeholder="Find your next workspace..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-gray-100/80 border-none rounded-2xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-black/5 focus:bg-white transition-all shadow-sm"
-              />
             </div>
+          ) : (
+            /* Full Header (Top) */
+            <>
+              <div className="flex justify-between items-center mb-4">
+                <div>
+                  <p className="text-sm text-gray-500 font-medium mb-1">{getGreeting()},</p>
+                  <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Wander</h1>
+                </div>
+                <Link href="/notifications" className="p-2 rounded-full bg-gray-50 hover:bg-gray-100 transition-colors relative">
+                  <Bell size={20} className="text-gray-600" />
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </Link>
+              </div>
 
-            <Link href="/notifications" className="p-3 rounded-full bg-gray-50 hover:bg-gray-100 transition-colors relative flex-shrink-0">
-              <Bell size={22} className="text-gray-600" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
-            </Link>
-          </div>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Search className="text-gray-400 group-focus-within:text-black transition-colors" size={20} />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Find your next workspace..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-gray-100/80 border-none rounded-2xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-black/5 focus:bg-white transition-all shadow-sm"
+                />
+              </div>
+            </>
+          )}
         </div>
       </header>
 

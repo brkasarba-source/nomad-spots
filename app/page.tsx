@@ -99,32 +99,28 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-50/50 pb-28">
-      {/* Premium Header */}
+      {/* Minimal Header */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100/50">
         <div className="px-5 pt-14 pb-4">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <p className="text-sm text-gray-500 font-medium mb-1">{getGreeting()},</p>
-              <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Wander</h1>
+          {/* Search Bar with Notification */}
+          <div className="flex items-center gap-3">
+            <div className="relative group flex-1">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Search className="text-gray-400 group-focus-within:text-black transition-colors" size={20} />
+              </div>
+              <input
+                type="text"
+                placeholder="Find your next workspace..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-gray-100/80 border-none rounded-2xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-black/5 focus:bg-white transition-all shadow-sm"
+              />
             </div>
-            <Link href="/notifications" className="p-2 rounded-full bg-gray-50 hover:bg-gray-100 transition-colors relative">
-              <Bell size={20} className="text-gray-600" />
+
+            <Link href="/notifications" className="p-3 rounded-full bg-gray-50 hover:bg-gray-100 transition-colors relative flex-shrink-0">
+              <Bell size={22} className="text-gray-600" />
               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
             </Link>
-          </div>
-
-          {/* Modern Search Bar */}
-          <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="text-gray-400 group-focus-within:text-black transition-colors" size={20} />
-            </div>
-            <input
-              type="text"
-              placeholder="Find your next workspace..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-gray-100/80 border-none rounded-2xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-black/5 focus:bg-white transition-all shadow-sm"
-            />
           </div>
         </div>
       </header>
@@ -136,8 +132,8 @@ export default function Home() {
             key={cat}
             onClick={() => setSelectedCategory(cat)}
             className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all transform active:scale-95 ${selectedCategory === cat
-                ? "bg-black text-white shadow-lg shadow-black/20"
-                : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300"
+              ? "bg-black text-white shadow-lg shadow-black/20"
+              : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300"
               }`}
           >
             {cat}

@@ -13,8 +13,26 @@ export default function AddSpot() {
     const [location, setLocation] = useState("");
     const [rating, setRating] = useState(5);
     const [description, setDescription] = useState("");
+    const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
 
     const categories = ["Cafe & Work", "Coworking", "Restaurant", "Bar", "Gym", "Shopping", "Event Space"];
+
+    const amenities = [
+        { id: "wifi", label: "WiFi", icon: "📶" },
+        { id: "power", label: "Power Outlets", icon: "🔌" },
+        { id: "coffee", label: "Coffee", icon: "☕" },
+        { id: "food", label: "Food", icon: "🍽️" },
+        { id: "quiet", label: "Quiet", icon: "🤫" },
+        { id: "ac", label: "AC", icon: "❄️" },
+        { id: "parking", label: "Parking", icon: "🅿️" },
+        { id: "outdoor", label: "Outdoor", icon: "🌳" },
+    ];
+
+    const toggleAmenity = (id: string) => {
+        setSelectedAmenities(prev =>
+            prev.includes(id) ? prev.filter(a => a !== id) : [...prev, id]
+        );
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -91,6 +109,27 @@ export default function AddSpot() {
                             className="w-full bg-gray-50 border-none rounded-xl py-3 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-black/5 transition-all"
                             required
                         />
+                    </div>
+                </div>
+
+                {/* Amenities */}
+                <div className="bg-white rounded-3xl p-6 shadow-[0_4px_20px_rgb(0,0,0,0.04)]">
+                    <label className="block text-sm font-semibold text-gray-700 mb-3">Amenities</label>
+                    <div className="grid grid-cols-2 gap-3">
+                        {amenities.map((amenity) => (
+                            <button
+                                key={amenity.id}
+                                type="button"
+                                onClick={() => toggleAmenity(amenity.id)}
+                                className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${selectedAmenities.includes(amenity.id)
+                                        ? "bg-black text-white"
+                                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                    }`}
+                            >
+                                <span>{amenity.icon}</span>
+                                <span>{amenity.label}</span>
+                            </button>
+                        ))}
                     </div>
                 </div>
 

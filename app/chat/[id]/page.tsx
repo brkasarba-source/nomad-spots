@@ -3,11 +3,13 @@
 import { ArrowLeft, Send, MoreVertical } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import { useState } from "react";
+import { useToast } from "@/components/ToastProvider";
 
 export default function ChatDetail() {
     const router = useRouter();
     const params = useParams();
     const [message, setMessage] = useState("");
+    const { showToast } = useToast();
 
     const conversations: any = {
         "1": {
@@ -60,7 +62,10 @@ export default function ChatDetail() {
                         </div>
                     </div>
 
-                    <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                    <button
+                        onClick={() => showToast("Chat options coming soon!", "info")}
+                        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    >
                         <MoreVertical size={20} className="text-gray-600" />
                     </button>
                 </div>

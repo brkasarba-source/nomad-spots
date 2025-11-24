@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Search, Filter } from "lucide-react";
+import { MapPin, Search } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -27,7 +27,7 @@ export default function Explore() {
                 <div className="px-5 pt-14 pb-4">
                     <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-6">Explore Cities</h1>
 
-                    <div className="relative group mb-4">
+                    <div className="relative group">
                         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <Search className="text-gray-400 group-focus-within:text-black transition-colors" size={20} />
                         </div>
@@ -39,11 +39,6 @@ export default function Explore() {
                             className="w-full bg-gray-100/80 border-none rounded-2xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-black/5 focus:bg-white transition-all shadow-sm"
                         />
                     </div>
-
-                    <button className="flex items-center gap-2 px-4 py-2.5 bg-black text-white rounded-xl text-sm font-semibold hover:bg-gray-800 transition-colors">
-                        <Filter size={18} />
-                        Filters
-                    </button>
                 </div>
             </header>
 

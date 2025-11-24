@@ -16,6 +16,11 @@ export default function Explore() {
         { name: "Cape Town, South Africa", slug: "capetown", spots: 98, image: "https://images.unsplash.com/photo-1580060839134-75a5edca2e99?q=80&w=800&auto=format&fit=crop" },
     ];
 
+    const filteredCities = cities.filter(city => {
+        if (!searchQuery.trim()) return true;
+        return city.name.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+
     return (
         <main className="min-h-screen bg-gray-50/50 pb-28">
             <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100/50">
@@ -43,32 +48,38 @@ export default function Explore() {
             </header>
 
             <div className="px-5 pt-6">
-                <div className="grid grid-cols-2 gap-4">
-                    {cities.map((city, index) => (
-                        <Link
-                            key={index}
-                            href={`/city/${city.slug}`}
-                            className="group relative bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 active:scale-[0.98] cursor-pointer block"
-                        >
-                            <div className="relative h-40 w-full overflow-hidden">
-                                <img
-                                    src={city.image}
-                                    alt={city.name}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                {filteredCities.length > 0 ? (
+                    <div className="grid grid-cols-2 gap-4">
+                        {filteredCities.map((city, index) => (
+                            <Link
+                                key={index}
+                                href={`/city/${city.slug}`}
+                                className="group relative bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 active:scale-[0.98] cursor-pointer block"
+                            >
+                                <div className="relative h-40 w-full overflow-hidden">
+                                    <img
+                                        src={city.image}
+                                        alt={city.name}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-                                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                                    <h3 className="font-bold text-base mb-1 leading-tight">{city.name}</h3>
-                                    <div className="flex items-center text-white/90 text-xs">
-                                        <MapPin size={12} className="mr-1" />
-                                        {city.spots} spots
+                                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                                        <h3 className="font-bold text-base mb-1 leading-tight">{city.name}</h3>
+                                        <div className="flex items-center text-white/90 text-xs">
+                                            <MapPin size={12} className="mr-1" />
+                                            {city.spots} spots
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
+                            </Link>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center py-12">
+                        <p className="text-gray-500">No cities found</p>
+                    </div>
+                )}
             </div>
 
             <div className="px-5 mt-8 mb-6">

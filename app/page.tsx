@@ -4,11 +4,20 @@ import { useState, useEffect } from "react";
 import SpotCard from "@/components/feed/SpotCard";
 import SpotCardSkeleton from "@/components/feed/SpotCardSkeleton";
 import { Search, Bell } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [spots, setSpots] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
+  };
 
   useEffect(() => {
     // Simulate API call
@@ -64,18 +73,28 @@ export default function Home() {
     }, 1500);
   }, []);
 
-  const filteredSpots = selectedCategory === "All"
-    ? spots
-    : spots.filter(spot => {
+  const filteredSpots = spots
+    .filter(spot => {
+      // Category filter
+      if (selectedCategory === "All") return true;
       const category = spot.category.toLowerCase();
       const selected = selectedCategory.toLowerCase();
-      // Match "Cafes" with "Cafe & Work", "Coworking" with "Coworking", etc.
       if (selected === "cafes") return category.includes("cafe");
       if (selected === "coworking") return category.includes("cowork");
       if (selected === "food") return category.includes("food") || category.includes("restaurant");
       if (selected === "events") return category.includes("event");
       if (selected === "gyms") return category.includes("gym");
       return category.includes(selected);
+    })
+    .filter(spot => {
+      // Search filter
+      if (!searchQuery.trim()) return true;
+      const query = searchQuery.toLowerCase();
+      return (
+        spot.title.toLowerCase().includes(query) ||
+        spot.location.toLowerCase().includes(query) ||
+        spot.category.toLowerCase().includes(query)
+      );
     });
 
   return (
@@ -85,13 +104,13 @@ export default function Home() {
         <div className="px-5 pt-14 pb-4">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <p className="text-sm text-gray-500 font-medium mb-1">Good Morning,</p>
+              <p className="text-sm text-gray-500 font-medium mb-1">{getGreeting()},</p>
               <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Wander</h1>
             </div>
-            <button className="p-2 rounded-full bg-gray-50 hover:bg-gray-100 transition-colors relative">
+            <Link href="/notifications" className="p-2 rounded-full bg-gray-50 hover:bg-gray-100 transition-colors relative">
               <Bell size={20} className="text-gray-600" />
               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
-            </button>
+            </Link>
           </div>
 
           {/* Modern Search Bar */}
@@ -102,27 +121,29 @@ export default function Home() {
             <input
               type="text"
               placeholder="Find your next workspace..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-gray-100/80 border-none rounded-2xl py-4 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-black/5 focus:bg-white transition-all shadow-sm"
             />
           </div>
         </div>
+      </header>
 
-        {/* Categories */}
-        <div className="px-5 pb-4 flex gap-3 overflow-x-auto no-scrollbar">
-          {["All", "Cafes", "Coworking", "Food", "Events", "Gyms"].map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all transform active:scale-95 ${selectedCategory === cat
+      {/* Categories - Not sticky */}
+      <div className="px-5 pt-4 pb-4 flex gap-3 overflow-x-auto no-scrollbar bg-gray-50/50">
+        {["All", "Cafes", "Coworking", "Food", "Events", "Gyms"].map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all transform active:scale-95 ${selectedCategory === cat
                 ? "bg-black text-white shadow-lg shadow-black/20"
                 : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300"
-                }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </header>
+              }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
 
       {/* Feed */}
       <div className="px-5 pt-6 space-y-6">

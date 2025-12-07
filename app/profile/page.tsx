@@ -3,9 +3,11 @@
 import { Settings, MapPin, Heart, Award, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/components/ToastProvider";
+import { useRouter } from "next/navigation";
 
 export default function Profile() {
     const { showToast } = useToast();
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState<"mySpots" | "saved">("mySpots");
 
     const user = {
@@ -138,6 +140,12 @@ export default function Profile() {
                             }`}
                     >
                         Saved
+                    </button>
+                    <button
+                        onClick={() => router.push("/settings")}
+                        className="px-4 py-3 rounded-xl font-semibold text-sm bg-white text-gray-600 border border-gray-200 hover:border-gray-300 transition-all"
+                    >
+                        ⚙️ Settings
                     </button>
                 </div>
 

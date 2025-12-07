@@ -128,7 +128,13 @@ export default function SpotDetail() {
                 </div>
 
                 {/* CTA Button */}
-                <button className="w-full bg-black text-white py-4 rounded-2xl font-bold text-base shadow-lg shadow-black/20 hover:bg-gray-800 transition-all active:scale-[0.98]">
+                <button
+                    onClick={() => {
+                        const query = encodeURIComponent(spot.location);
+                        window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+                    }}
+                    className="w-full bg-black text-white py-4 rounded-2xl font-bold text-base shadow-lg shadow-black/20 hover:bg-gray-800 transition-all active:scale-[0.98]"
+                >
                     Get Directions
                 </button>
             </div>

@@ -10,6 +10,7 @@ export default function ChatDetail() {
     const params = useParams();
     const [message, setMessage] = useState("");
     const { showToast } = useToast();
+    const [showOptions, setShowOptions] = useState(false);
 
     const conversations: any = {
         "1": {
@@ -63,7 +64,7 @@ export default function ChatDetail() {
                     </div>
 
                     <button
-                        onClick={() => showToast("Chat options coming soon!", "info")}
+                        onClick={() => setShowOptions(true)}
                         className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                     >
                         <MoreVertical size={20} className="text-gray-600" />
@@ -111,6 +112,52 @@ export default function ChatDetail() {
                     </button>
                 </div>
             </div>
+
+            {/* Chat Options Modal */}
+            {showOptions && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-50 flex items-end"
+                    onClick={() => setShowOptions(false)}
+                >
+                    <div
+                        className="bg-white rounded-t-3xl w-full p-6 pb-safe-area-inset-bottom"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-6"></div>
+                        <h3 className="text-lg font-bold text-gray-900 mb-4">Chat Options</h3>
+
+                        <div className="space-y-2">
+                            <button
+                                onClick={() => {
+                                    showToast("View profile coming soon!", "info");
+                                    setShowOptions(false);
+                                }}
+                                className="w-full text-left px-4 py-3 rounded-xl hover:bg-gray-100 transition-colors font-medium"
+                            >
+                                View Profile
+                            </button>
+                            <button
+                                onClick={() => {
+                                    showToast("Mute notifications coming soon!", "info");
+                                    setShowOptions(false);
+                                }}
+                                className="w-full text-left px-4 py-3 rounded-xl hover:bg-gray-100 transition-colors font-medium"
+                            >
+                                Mute Notifications
+                            </button>
+                            <button
+                                onClick={() => {
+                                    showToast("Block user coming soon!", "info");
+                                    setShowOptions(false);
+                                }}
+                                className="w-full text-left px-4 py-3 rounded-xl hover:bg-red-50 text-red-600 transition-colors font-medium"
+                            >
+                                Block User
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </main>
     );
 }

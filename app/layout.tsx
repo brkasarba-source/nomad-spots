@@ -6,6 +6,7 @@ import "./globals.css";
 import BottomNav from "@/components/layout/BottomNav";
 import InstallPrompt from "@/components/InstallPrompt";
 import { ToastProvider } from "@/components/ToastProvider";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { usePathname } from "next/navigation";
 
 const outfit = Outfit({ subsets: ["latin"] });
@@ -28,11 +29,13 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={`${outfit.className} bg-gray-50 text-gray-900`}>
-        <ToastProvider>
-          {children}
-          {!hideBottomNav && <BottomNav />}
-          <InstallPrompt />
-        </ToastProvider>
+        <AuthProvider>
+          <ToastProvider>
+            {children}
+            {!hideBottomNav && <BottomNav />}
+            <InstallPrompt />
+          </ToastProvider>
+        </AuthProvider>
       </body>
     </html>
   );
